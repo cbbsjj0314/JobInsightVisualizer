@@ -1,6 +1,6 @@
-from . import *
 from django.db import models
 from .shared import BaseInfo
+from .category import *
 
 # company
 class Company(BaseInfo):
@@ -31,3 +31,4 @@ class Role(BaseInfo):
 class Requirement(BaseInfo):
     job_posting = models.ForeignKey(JobPosting, on_delete=models.PROTECT)
     skill = models.ForeignKey(Skill, on_delete=models.PROTECT)
+
