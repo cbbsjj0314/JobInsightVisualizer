@@ -177,3 +177,25 @@ function showChart(chartNumber) {
         drawChart2();
     }
 }
+
+
+// 차트를 그리는 함수
+function drawChart3() {
+    const ctx = document.getElementById('myChart2').getContext('2d');
+    const myChart2 = new Chart(ctx, {
+        type: 'bar', // 차트 타입
+        data: programmingData,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+// HTML 문서가 완전히 로드된 후 차트를 그립니다.
+document.addEventListener('DOMContentLoaded', (event) => {
+    drawChart2();
+});

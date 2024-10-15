@@ -111,3 +111,35 @@ function drawProgrammingChart() {
     };
     myChart4 = new Chart(ctx, config);
 }
+
+
+function goToChart4() {
+    const chartImagePath = "{% static 'charts/programming_chart.png' %}";
+    const chartContainer = document.getElementById('chart-4');
+    const imageElement = document.createElement('img');
+
+    imageElement.src = chartImagePath;
+    imageElement.alt = '프로그래밍 언어 차트';
+
+    // 이미지가 존재하는지 확인
+    fetch(chartImagePath)
+        .then(response => {
+            if (response.ok) {
+                // 이미지가 존재하면 노출
+                chartContainer.innerHTML = ''; // 기존 내용 제거
+                chartContainer.appendChild(imageElement);
+                chartContainer.style.display = 'block'; // 차트 보이게 하기
+            } else {
+                // 이미지가 존재하지 않으면 Python 데이터로 차트 생성 요청
+                fetch('{% url "show_chart" %}')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Python에서 차트 생성 후 응답받은 데이터로 차트 그리기
+                        drawProgrammingChart(); // 차트 그리기 함수 호출
+                        chartContainer.style.display = 'block'; // 차트 보이게 하기
+                    })
+                    .catch(error => console.error('차트 생성 중 오류 발생:', error));
+            }
+        })
+        .catch(error => console.error('이미지 확인 중 오류 발생:', error));
+}
