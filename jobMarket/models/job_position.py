@@ -1,6 +1,6 @@
+from . import *
 from django.db import models
 from .shared import BaseInfo
-from .category import Platform, Skill
 
 # company
 class Company(BaseInfo):
@@ -8,8 +8,8 @@ class Company(BaseInfo):
 
 # job_posting
 class JobPosting(BaseInfo):
-    company_id = models.ForeignKey(Company, on_delete=models.PROTECT)
-    platform_id = models.ForeignKey(Platform, on_delete=models.PROTECT)
+    company = models.ForeignKey(Company, on_delete=models.PROTECT)
+    platform = models.ForeignKey(Platform, on_delete=models.PROTECT)
     link = models.CharField(max_length=200, verbose_name='Job posting link')
     title = models.CharField(max_length=100, verbose_name='Posting title')
     experience_level = models.CharField(max_length=20, verbose_name='Job experience')
@@ -20,14 +20,14 @@ class JobPosting(BaseInfo):
 # location
 class Location(BaseInfo):
     name = models.CharField(max_length=50, verbose_name='Workplace location')
-    job_posting_id = models.ForeignKey(JobPosting, on_delete=models.PROTECT)
+    job_posting = models.ForeignKey(JobPosting, on_delete=models.PROTECT)
 
 # role
 class Role(BaseInfo):
     name = models.CharField(max_length=50, verbose_name='Job position role')
-    job_posting_id = models.ForeignKey(JobPosting, on_delete=models.PROTECT)
+    job_posting = models.ForeignKey(JobPosting, on_delete=models.PROTECT)
 
 # requirement
 class Requirement(BaseInfo):
-    job_posting_id = models.ForeignKey(JobPosting, on_delete=models.PROTECT)
-    skill_id = models.ForeignKey(Skill, on_delete=models.PROTECT)
+    job_posting = models.ForeignKey(JobPosting, on_delete=models.PROTECT)
+    skill = models.ForeignKey(Skill, on_delete=models.PROTECT)
