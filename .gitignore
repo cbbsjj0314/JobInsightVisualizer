@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Python bytecode
 __pycache__/
 *.py[cod]
@@ -31,7 +31,6 @@ ENV/
 
 # Windows
 Thumbs.db
-=======
+
 /db.sqlite3
 /JobInsight/__pycache__/
->>>>>>> feature/index.html_추가
