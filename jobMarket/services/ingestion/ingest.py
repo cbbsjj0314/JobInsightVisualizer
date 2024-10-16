@@ -1,6 +1,7 @@
 import os, json
 from datetime import datetime
 from django.db import transaction
+from django.utils.timezone import make_aware
 from jobMarket.models.shared import *
 from jobMarket.models.all_models import *
 from jobMarket.models.misc import *
@@ -9,13 +10,13 @@ from jobMarket.models.misc import *
 데이터 수집 결과물인 json이 있는 경로를 입력받아서
 1차 테이블에 넣는 메소드입니다.
 """
-def ingest(path):
-    filename = os.path.basename(path)
-    collection_date_str, platform_name = filename.split('_', 0)
-    collected_on = datetime.strptime(collection_date_str, '%Y_%m_%d').date()
+def ingest(fpath):
+    filename = os.path.basename(fpath)
+    collection_date_str, platform_name = filename.split('_', 2)[:2]
+    collected_on = make_aware(datetime.strptime(collection_date_str, '%Y-%m-%d'))
 
     # load up json
-    with open(path, 'r', encoding='utf-8') as f:
+    with open(fpath, 'r', encoding='utf-8') as f:
         data = json.load(f)
 
     # the atom bomb
@@ -33,19 +34,19 @@ def ingest(path):
             ## create job posting
             # check existing post: 아마 비효율적.
             # TODO: update_or_create을 오버라이드 하는게 나을 것 같다
-            job_posting, exists = JobPosting.objects.get(title=post['title'], company=company)
-            if exists:
+            job_posting = JobPosting.objects.filter(title=post['title'], company=company, is_new=True).first()
+            if job_posting:
                 job_posting.is_new = False
                 job_posting.save()
             # and then create
-            job_posting, _ = JobPosting.objects.get_or_create(
+            job_posting = JobPosting.objects.create(
                 title=post['title'],
                 company=company,
                 link=post['url'],
                 platform=platform,
                 experience_level=post['career'],
                 is_new=True,
-                deadline=post['deadline'],
+                deadline=make_aware(datetime.strptime(post['deadline'], '%Y-%m-%d')),
                 collected_on=collected_on
             )
 
@@ -64,7 +65,8 @@ def ingest(path):
 
             # handle skills entry
             for entry in post['skills']:
-                category_name, skill_name = entry.split('-', 1)
+                split_entry = entry.split('-', 1)
+                category_name, skill_name = split_entry if len(split_entry) > 1 else ['Undefined'] + split_entry
                 skill_cat, _ = SkillCategory.objects.get_or_create(name=category_name)
                 skill, _ = Skill.objects.get_or_create(name=skill_name, skill_cat=skill_cat)
                 # create assoc for each skill
