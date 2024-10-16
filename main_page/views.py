@@ -46,7 +46,7 @@ matplotlib.use('Agg')  # 이거 없으면 서버 꺼짐
 # font_prop = font_manager.FontProperties(fname=font_path)
 # rc('font', family=font_prop.get_name())
 
-font_path = '/Library/Fonts/Arial Unicode.ttf'  # 한글이 안 나와서 폰트 추가함. 근데 맥북 한글 폰트 경로라,, 다른 환경에선 어떡하지
+font_path = os.path.join(settings.BASE_DIR, 'main_page', 'static', 'fonts', 'NanumSquareNeo-Variable.ttf') # 한글이 안 나와서 폰트 추가함. 근데 맥북 한글 폰트 경로라,, 다른 환경에선 어떡하지
 font_prop = font_manager.FontProperties(fname=font_path)
 rc('font', family=font_prop.get_name())
 
