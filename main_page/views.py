@@ -46,9 +46,9 @@ matplotlib.use('Agg')  # 이거 없으면 서버 꺼짐
 # font_prop = font_manager.FontProperties(fname=font_path)
 # rc('font', family=font_prop.get_name())
 
-font_path = os.path.join(settings.BASE_DIR, 'main_page', 'static', 'fonts', 'NanumSquareNeo-Variable.ttf') # 한글이 안 나와서 폰트 추가함. 근데 맥북 한글 폰트 경로라,, 다른 환경에선 어떡하지
-font_prop = font_manager.FontProperties(fname=font_path)
-rc('font', family=font_prop.get_name())
+# font_path = os.path.join(settings.BASE_DIR, 'main_page', 'static', 'fonts', 'NanumSquareNeo-Variable.ttf') # 한글이 안 나와서 폰트 추가함. 근데 맥북 한글 폰트 경로라,, 다른 환경에선 어떡하지
+# font_prop = font_manager.FontProperties(fname=font_path)
+# rc('font', family=font_prop.get_name())
 
 def index(request):
     return render(request, 'main_page/index.html')
@@ -83,108 +83,108 @@ def save_plot_to_buffer(fig):
     return buffer
 
 
-def draw_bar_chart(job_titles, new_hires, experienced_hires, colors, x_label, y_label, title):
-    # 총 공고 개수 계산
-    total_hires = [new + experienced for new, experienced in zip(new_hires, experienced_hires)]
+# def draw_bar_chart(job_titles, new_hires, experienced_hires, colors, x_label, y_label, title):
+#     # 총 공고 개수 계산
+#     total_hires = [new + experienced for new, experienced in zip(new_hires, experienced_hires)]
 
-    # 차트 크기 조정
-    fig, ax = plt.subplots(figsize=(12, 6))  # 가로 12, 세로 6으로 조정
+#     # 차트 크기 조정
+#     fig, ax = plt.subplots(figsize=(12, 6))  # 가로 12, 세로 6으로 조정
 
-    # 총 공고 개수 막대 그래프 설정
-    x = range(len(job_titles))
-    ax.bar(x, total_hires, width=0.4, color=colors, align='center')
+#     # 총 공고 개수 막대 그래프 설정
+#     x = range(len(job_titles))
+#     ax.bar(x, total_hires, width=0.4, color=colors, align='center')
 
-    ax.set_xlabel(x_label, fontproperties=font_prop)
-    ax.set_ylabel(y_label, fontproperties=font_prop)
-    ax.set_title(title, fontproperties=font_prop)
+#     ax.set_xlabel(x_label, fontproperties=font_prop)
+#     ax.set_ylabel(y_label, fontproperties=font_prop)
+#     ax.set_title(title, fontproperties=font_prop)
 
-    # x축 tick 조정
-    ax.set_xticks(x)
+#     # x축 tick 조정
+#     ax.set_xticks(x)
     
-    # x축 레이블을 회전하여 표시
-    ax.set_xticklabels(job_titles, fontproperties=font_prop, rotation=45, ha='right')
-    plt.tight_layout()
+#     # x축 레이블을 회전하여 표시
+#     ax.set_xticklabels(job_titles, fontproperties=font_prop, rotation=45, ha='right')
+#     plt.tight_layout()
 
-    return fig
+#     return fig
 
 
-def draw_double_bar_chart(job_titles, new_hires, experienced_hires, colors, x_label, y_label, title, legend_label_1, legend_label_2):
-    x = range(len(job_titles))
-    width = 0.3
+# def draw_double_bar_chart(job_titles, new_hires, experienced_hires, colors, x_label, y_label, title, legend_label_1, legend_label_2):
+#     x = range(len(job_titles))
+#     width = 0.3
 
-    fig, ax = plt.subplots(figsize=(12, 6))  # 차트 크기 설정
+#     fig, ax = plt.subplots(figsize=(12, 6))  # 차트 크기 설정
 
-    # 두 개의 바 차트 그리기
-    ax.bar([i - width/2 for i in x], new_hires, width, label=legend_label_1, color=colors[0])
-    ax.bar([i + width/2 for i in x], experienced_hires, width, label=legend_label_2, color=colors[1])
+#     # 두 개의 바 차트 그리기
+#     ax.bar([i - width/2 for i in x], new_hires, width, label=legend_label_1, color=colors[0])
+#     ax.bar([i + width/2 for i in x], experienced_hires, width, label=legend_label_2, color=colors[1])
 
-    # x축, y축, 제목 설정
-    ax.set_xlabel(x_label, fontproperties=font_prop)
-    ax.set_ylabel(y_label, fontproperties=font_prop)
-    ax.set_title(title, fontproperties=font_prop)
+#     # x축, y축, 제목 설정
+#     ax.set_xlabel(x_label, fontproperties=font_prop)
+#     ax.set_ylabel(y_label, fontproperties=font_prop)
+#     ax.set_title(title, fontproperties=font_prop)
     
-    # x축 레이블 설정 및 회전
-    ax.set_xticks(x)
-    ax.set_xticklabels(job_titles, fontproperties=font_prop, rotation=45, ha='right')  # x축 레이블 회전 및 정렬
+#     # x축 레이블 설정 및 회전
+#     ax.set_xticks(x)
+#     ax.set_xticklabels(job_titles, fontproperties=font_prop, rotation=45, ha='right')  # x축 레이블 회전 및 정렬
 
-    # 범례 표시
-    ax.legend()
+#     # 범례 표시
+#     ax.legend()
 
-    # 레이아웃 자동 조정
-    plt.tight_layout()
+#     # 레이아웃 자동 조정
+#     plt.tight_layout()
 
-    return fig
+#     return fig
 
 
 # 1번 차트 총 공고 개수
-def job_postings_count_chart(request):
-    # job_titles = ['백엔드', '프론트엔드', '데이터 엔지니어']
-    # new_hires = [10, 5, 8]  # 신입 공고 수
-    # experienced_hires = [5, 2, 3]  # 경력 공고 수
+# def job_postings_count_chart(request):
+#     # job_titles = ['백엔드', '프론트엔드', '데이터 엔지니어']
+#     # new_hires = [10, 5, 8]  # 신입 공고 수
+#     # experienced_hires = [5, 2, 3]  # 경력 공고 수
 
-    job_titles = ['데이터 엔지니어', '백엔드', '데이터 엔지니어', '데이터 엔지니어', '프론트엔드',
-                '백엔드', '프론트엔드', '프론트엔드', '데이터 엔지니어', '백엔드',
-                '프론트엔드', '프론트엔드', '데이터 엔지니어', '백엔드', '백엔드',
-                '데이터 엔지니어', '데이터 엔지니어', '백엔드', '백엔드', '프론트엔드']
+#     job_titles = ['데이터 엔지니어', '백엔드', '데이터 엔지니어', '데이터 엔지니어', '프론트엔드',
+#                 '백엔드', '프론트엔드', '프론트엔드', '데이터 엔지니어', '백엔드',
+#                 '프론트엔드', '프론트엔드', '데이터 엔지니어', '백엔드', '백엔드',
+#                 '데이터 엔지니어', '데이터 엔지니어', '백엔드', '백엔드', '프론트엔드']
 
-    new_hires = [8, 10, 8, 8, 5, 10, 5, 5, 8, 10, 5, 5, 8, 10, 10, 8, 8, 10, 10, 5]
+#     new_hires = [8, 10, 8, 8, 5, 10, 5, 5, 8, 10, 5, 5, 8, 10, 10, 8, 8, 10, 10, 5]
 
-    experienced_hires = [3, 5, 3, 3, 2, 5, 2, 2, 3, 5, 2, 2, 3, 5, 5, 3, 3, 5, 5, 2]
+#     experienced_hires = [3, 5, 3, 3, 2, 5, 2, 2, 3, 5, 2, 2, 3, 5, 5, 3, 3, 5, 5, 2]
 
-    # colors = ["#a0b2da", "#dac8a0", "#a0cfda"]
-    colors = generate_colors(len(job_titles))
-    x_label = "직업"
-    y_label = "채용 공고 개수"
-    title = "직업별 채용 공고 개수"
+#     # colors = ["#a0b2da", "#dac8a0", "#a0cfda"]
+#     colors = generate_colors(len(job_titles))
+#     x_label = "직업"
+#     y_label = "채용 공고 개수"
+#     title = "직업별 채용 공고 개수"
 
-    fig = draw_bar_chart(job_titles, new_hires, experienced_hires, colors, x_label, y_label, title)
-    buffer = save_plot_to_buffer(fig)
+#     fig = draw_bar_chart(job_titles, new_hires, experienced_hires, colors, x_label, y_label, title)
+#     buffer = save_plot_to_buffer(fig)
 
-    return HttpResponse(buffer, content_type='image/png')
+#     return HttpResponse(buffer, content_type='image/png')
 
 
 # 1번 차트 신입/경력 표시
-def job_postings_count_by_experience_chart(request):
-    job_titles = ['데이터 엔지니어', '백엔드', '데이터 엔지니어', '데이터 엔지니어', '프론트엔드',
-                '백엔드', '프론트엔드', '프론트엔드', '데이터 엔지니어', '백엔드',
-                '프론트엔드', '프론트엔드', '데이터 엔지니어', '백엔드', '백엔드',
-                '데이터 엔지니어', '데이터 엔지니어', '백엔드', '백엔드', '프론트엔드']
+# def job_postings_count_by_experience_chart(request):
+#     job_titles = ['데이터 엔지니어', '백엔드', '데이터 엔지니어', '데이터 엔지니어', '프론트엔드',
+#                 '백엔드', '프론트엔드', '프론트엔드', '데이터 엔지니어', '백엔드',
+#                 '프론트엔드', '프론트엔드', '데이터 엔지니어', '백엔드', '백엔드',
+#                 '데이터 엔지니어', '데이터 엔지니어', '백엔드', '백엔드', '프론트엔드']
 
-    new_hires = [8, 10, 8, 8, 5, 10, 5, 5, 8, 10, 5, 5, 8, 10, 10, 8, 8, 10, 10, 5]
+#     new_hires = [8, 10, 8, 8, 5, 10, 5, 5, 8, 10, 5, 5, 8, 10, 10, 8, 8, 10, 10, 5]
 
-    experienced_hires = [3, 5, 3, 3, 2, 5, 2, 2, 3, 5, 2, 2, 3, 5, 5, 3, 3, 5, 5, 2]
+#     experienced_hires = [3, 5, 3, 3, 2, 5, 2, 2, 3, 5, 2, 2, 3, 5, 5, 3, 3, 5, 5, 2]
 
-    colors = ["#4192f4", "#92f441"]
-    x_label = '직업'
-    y_label = '채용 공고 개수'
-    title = '직업별 채용 공고 개수'
-    legend_label_1 = '신입'
-    legend_label_2 = '경력'
+#     colors = ["#4192f4", "#92f441"]
+#     x_label = '직업'
+#     y_label = '채용 공고 개수'
+#     title = '직업별 채용 공고 개수'
+#     legend_label_1 = '신입'
+#     legend_label_2 = '경력'
 
-    fig = draw_double_bar_chart(job_titles, new_hires, experienced_hires, colors, x_label, y_label, title, legend_label_1, legend_label_2)
-    buffer = save_plot_to_buffer(fig)
+#     fig = draw_double_bar_chart(job_titles, new_hires, experienced_hires, colors, x_label, y_label, title, legend_label_1, legend_label_2)
+#     buffer = save_plot_to_buffer(fig)
 
-    return HttpResponse(buffer, content_type='image/png')
+#     return HttpResponse(buffer, content_type='image/png')
 
 
 def entry_tech_stacks_chart(request):
@@ -655,3 +655,13 @@ def word_cloud_experienced(request):
     plt.close()
 
     return HttpResponse(buffer, content_type='image/png')
+
+#################
+### 범준 작업 중 ###
+#################
+from django.http import JsonResponse
+from . import chart3_data_dummy
+
+def chart3_data(request):
+    # JSON 응답으로 데이터 반환
+    return JsonResponse(chart3_data_dummy.data, safe=False)
