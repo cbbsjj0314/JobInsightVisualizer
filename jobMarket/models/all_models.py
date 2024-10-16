@@ -21,10 +21,6 @@ class Location(BaseInfo):
     name = models.CharField(max_length=50, verbose_name='Workplace location')
     job_posting = models.ForeignKey(JobPosting, on_delete=models.PROTECT)
 
-class Role(BaseInfo):
-    name = models.CharField(max_length=50, verbose_name='Job position role')
-    job_posting = models.ForeignKey(JobPosting, on_delete=models.PROTECT)
-
 class SkillCategory(BaseInfo):
     name = models.CharField(max_length=100, verbose_name="기술 카테고리 이름")
 
