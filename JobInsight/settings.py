@@ -27,8 +27,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+STATIC_URL = '/static/'
 
-# Application definition
+# 정적 파일의 경로를 설정합니다.
+STATICFILES_DIRS = [
+    BASE_DIR / "main_page/static",  # 프로젝트 디렉토리 안에 'static' 폴더를 사용합니다.
+]
 
 INSTALLED_APPS = [
     'jobMarket.apps.JobmarketConfig',
@@ -38,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'main_page',
 ]
 
 MIDDLEWARE = [
