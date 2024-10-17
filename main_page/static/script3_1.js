@@ -8,18 +8,9 @@ const colorPalette = [
     "#F5E1C0", "#FFB2A1",
 ];
 
-// function getRandomColor() {
-//     const letters = '0123456789ABCDEF';
-//     let color = '#';
-//     for (let i = 0; i < 6; i++) {
-//         color += letters[Math.floor(Math.random() * 16)];
-//     }
-//     return color;
-// }
-
 // chart3 data 가져오기
 function fetchChart3Data() {
-    fetch('http://127.0.0.1:8000/main_page/chart3_data/')
+    fetch('http://127.0.0.1:8000/main_page/chart3_data/')   // 3번 차트 api: fetch('http://127.0.0.1:8000/api/stat/job_need_skills/')
         .then(response => {
             if (!response.ok) {
                 throw new Error('응답이 정상적이지 않음');
@@ -62,7 +53,7 @@ function updateJobTitleDropdown(jobTitles) {
     });
 }
 
-// Treemap 생성
+// tech_stacks 데이터 뽑기
 function generateJobTechStacksTreemap(selectedJobTitle) {
     console.log('선택한 직업:', selectedJobTitle);
     const selectedJobData = window.jobTechStacksData.find(job => job.job_title === selectedJobTitle);
@@ -73,134 +64,86 @@ function generateJobTechStacksTreemap(selectedJobTitle) {
     }
 }
 
-// EntryTreemap (트리맵 생성 함수 따로 만들어야 할 듯)
+// 트리맵 생성
+function createTreemap(containerId, techStacks, colors, treemapType) {
+    console.log(`${treemapType} tech stacks:`, techStacks);
+
+    // 트리맵을 표시할 컨테이너 선택
+    const treemapContainer = d3.select(containerId)
+        .html(""); // 기존 내용 지우기
+
+    const size = Math.min(treemapContainer.node().clientWidth, 800);
+    const width = 800;
+    const height = 400;
+
+    // techStacks가 비어 있는 경우, "공고 없음" 텍스트를 표시
+    if (techStacks.length === 0) {
+        const noDataMessage = "공고 없음";
+        treemapContainer.append("div")
+            .style("width", `${width}px`)
+            .style("height", `${height}px`)
+            .style("display", "flex")
+            .style("align-items", "center")
+            .style("justify-content", "center")
+            .style("font-size", "24px")
+            .text(noDataMessage);
+        return;  // 함수 종료
+    }
+
+    // 트리맵 데이터 준비
+    const treemapData = techStacks.map((stack, index) => ({
+        name: stack.tech_name,
+        value: stack.percentage,
+        color: colors[index % colors.length]
+    }));
+
+    const root = d3.hierarchy({ children: treemapData })
+        .sum(d => d.value)
+        .sort((a, b) => b.value - a.value);
+
+    d3.treemap()
+        .size([width, height])
+        .padding(1)(root);
+
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const context = canvas.getContext('2d');
+
+    const fontSize = 15;
+    context.font = `${fontSize}px Arial`;
+    context.textAlign = "left";
+    context.textBaseline = "top";
+
+    root.leaves().forEach(d => {
+        context.fillStyle = d.data.color || "#69b3a2";
+        context.fillRect(d.x0, d.y0, d.x1 - d.x0, d.y1 - d.y0);
+
+        context.fillStyle = "#000";
+        const textX = d.x0 + 5;  // 텍스트 여백
+        const textY = d.y0 + 5;
+        const text = `${d.data.name} (${d.data.value}%)`;
+
+        if (context.measureText(text).width < (d.x1 - d.x0 - 10)) {
+            context.fillText(text, textX, textY);
+        } else {
+            context.fillText(d.data.name, textX, textY);
+        }
+    });
+
+    const img = new Image();
+    img.src = canvas.toDataURL();
+    img.alt = `${treemapType} Level Tech Stacks Treemap`;
+
+    // 트리맵 컨테이너에 이미지 추가
+    treemapContainer.html("").append(() => img);
+}
+
 function createEntryTreemap(entryTechStacks) {
-    console.log("Entry tech stacks:", entryTechStacks);
-
-    // 트리맵 데이터 준비
-    const entryData = entryTechStacks.map((stack, index) => ({
-        name: stack.tech_name,
-        value: stack.percentage,
-        // color: getRandomColor()
-        // color: colorPalette[Math.floor(Math.random() * colorPalette.length)]
-        color: colorPalette[index % colorPalette.length]
-    }));
-
-    // D3.js를 사용한 트리맵 생성 코드
-    const entryTreemapContainer = d3.select("#entry-treemap")
-        .html(""); // 기존 내용 지우기
-
-    const size = Math.min(entryTreemapContainer.node().clientWidth, 800);
-    const width = 800
-    const height = 400
-
-    const root = d3.hierarchy({ children: entryData })
-        .sum(d => d.value)
-        .sort((a, b) => b.value - a.value);
-
-    d3.treemap()
-        .size([width, height])
-        .padding(1)(root);
-
-    // 캔버스 생성
-    const canvas = document.createElement('canvas');
-    canvas.width = size;
-    canvas.height = size;
-    const context = canvas.getContext('2d');
-
-    // 텍스트 크기 설정
-    const fontSize = 15;
-    context.font = `${fontSize}px Arial`;
-    context.textAlign = "left";
-    context.textBaseline = "top";
-
-    // 트리맵 요소를 그립니다.
-    root.leaves().forEach(d => {
-        context.fillStyle = d.data.color || "#69b3a2";
-        context.fillRect(d.x0, d.y0, d.x1 - d.x0, d.y1 - d.y0);
-
-        context.fillStyle = "#000";
-        const textX = d.x0 + 5;
-        const textY = d.y0 + 5;
-        const text = `${d.data.name} (${d.data.value}%)`;
-
-        if (context.measureText(text).width < (d.x1 - d.x0 - 10)) {
-            context.fillText(text, textX, textY);
-        } else {
-            context.fillText(d.data.name, textX, textY);
-        }
-    });
-
-    const img = new Image();
-    img.src = canvas.toDataURL();
-    img.alt = "Entry Level Tech Stacks Treemap";
-
-    // 기존의 트리맵 컨테이너에 이미지 추가
-    entryTreemapContainer.html("").append(() => img);
+    createTreemap("#entry-treemap", entryTechStacks, colorPalette, "Entry");
 }
 
-// ExperiencedTreemap 생성(트리맵 생성 함수 따로 만들어야 할 듯)
 function createExperiencedTreemap(experiencedTechStacks) {
-    console.log("Experienced tech stacks:", experiencedTechStacks);
-
     const reversedColors = [...colorPalette].reverse();
-    // 트리맵 데이터 준비
-    const experiencedData = experiencedTechStacks.map((stack, index) => ({
-        name: stack.tech_name,
-        value: stack.percentage,
-        // color: getRandomColor()
-        // color: colorPalette[Math.floor(Math.random() * colorPalette.length)]
-        color: reversedColors[index % reversedColors.length]
-    }));
-
-    // D3.js를 사용한 트리맵 생성 코드
-    const experiencedTreemapContainer = d3.select("#experienced-treemap")
-        .html(""); // 기존 내용 지우기
-    
-    const size = Math.min(experiencedTreemapContainer.node().clientWidth, 800);
-    const width = 800
-    const height = 400
-
-    const root = d3.hierarchy({ children: experiencedData })
-        .sum(d => d.value)
-        .sort((a, b) => b.value - a.value);
-
-    d3.treemap()
-        .size([width, height])
-        .padding(1)(root);
-
-    const canvas = document.createElement('canvas');
-    canvas.width = size;
-    canvas.height = size;
-    const context = canvas.getContext('2d');
-
-    const fontSize = 15;
-    context.font = `${fontSize}px Arial`;
-    context.textAlign = "left";
-    context.textBaseline = "top";
-
-    root.leaves().forEach(d => {
-        context.fillStyle = d.data.color || "#69b3a2";
-        context.fillRect(d.x0, d.y0, d.x1 - d.x0, d.y1 - d.y0);
-
-        context.fillStyle = "#000";
-        const textX = d.x0 + 5;
-        const textY = d.y0 + 5;
-        const text = `${d.data.name} (${d.data.value}%)`;
-
-        if (context.measureText(text).width < (d.x1 - d.x0 - 10)) {
-            context.fillText(text, textX, textY);
-        } else {
-            context.fillText(d.data.name, textX, textY);
-        }
-    });
-
-    const img = new Image();
-    img.src = canvas.toDataURL();
-    img.alt = "Experienced Level Tech Stacks Treemap";
-
-    experiencedTreemapContainer.html("").append(() => img);
+    createTreemap("#experienced-treemap", experiencedTechStacks, reversedColors, "Experienced");
 }
-
-// main_page 로딩되면 데이터 가져오기
-// document.addEventListener("DOMContentLoaded", fetchChart3Data);
