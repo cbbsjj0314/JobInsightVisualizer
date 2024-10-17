@@ -43,20 +43,17 @@
                     console.log(img.src)
                 }
             }
-
             if (chartNumber === 2) {
                 //클릭했을때 그려주는 것으로 변경 
                 drawChart(); // 첫 번째 차트 그리기 막대 그래프/ 꺽은선 그래프 
                 drawChart2(); // 두 번째 차트 그리기
                 drawCombinedChart();
             } else if (chartNumber == 3) {
-                fetchChartData();
+                fetchChart3Data();
             } else if (chartNumber == 4) {
                 // drawChart4
                 draw_chart1()
-
             }
-
         }
     </script>
 </head>
@@ -88,7 +85,7 @@
         <div id="chart-3" class="chart-content" style="display:none;">
 
             <h2 id="chart-title">직군별 필요 스택을 %로 표현한 것</h2>
-            <select id="job-dropdown" onchange="showJobChart(this.value)">
+            <select id="chart3-job-dropdown" onchange="generateJobTechStacksTreemap(this.value)">
                 <option value="" disabled selected>직업 목록</option>
             </select>
             <div id="treemap-container">

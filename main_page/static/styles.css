@@ -61,19 +61,19 @@ h2 {
     flex-wrap: wrap;
 }
 
-#chart-3 img {
+/* #chart-3 img {
     max-width: 45%;
     height: auto;
     margin: 10px;
-}
+} */
 
 #treemap-container {
     display: flex;
-    flex-wrap: wrap; /* 공간 부족 시 다음 줄로 이동 */
+    flex-wrap: wrap;
 }
 
-#entry-treemap, #experienced-treemap {
-    flex: 1; /* 공간을 동일하게 나누기 */
-    min-width: 300px; /* 최소 너비 설정 */
-    margin: 5px; /* 트리맵 사이 여백 추가 */
-}
+/* #entry-treemap, #experienced-treemap {
+    flex: 1;
+    min-width: 300px;
+    margin: 5px;
+} */
