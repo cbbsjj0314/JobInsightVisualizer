@@ -2,6 +2,7 @@ from django.contrib import admin
 from jobMarket.models.shared import *
 from jobMarket.models.all_models import *
 from jobMarket.models.misc import *
+from jobMarket.models.chart4model import *
 
 # Register your models here.
 
@@ -61,6 +62,11 @@ class RawFileAdmin(admin.ModelAdmin):
     list_display = ('filename', 'collected_on', 'created_on', 'last_edit', 'id')
     readonly_fields = ['id', 'created_on', 'last_edit']
 
+class Chart4Admin(admin.ModelAdmin):
+    list_display = ('language', 'role', 'percentage', 'created_on', 'last_edit', 'id')
+    readonly_fields = ['id', 'created_on', 'last_edit']
+
+
 admin.site.register(Platform, PlatformAdmin)
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(JobPosting, JobPostingAdmin)
@@ -72,3 +78,4 @@ admin.site.register(JobSuperType, JobSuperTypeAdmin)
 admin.site.register(JobSubType, JobSubTypeAdmin)
 admin.site.register(JobSuperSubAssociation, JobSuperSubAssociationAdmin)
 admin.site.register(RawFile, RawFileAdmin)
+admin.site.register(ChartFour, Chart4Admin)
