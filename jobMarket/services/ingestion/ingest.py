@@ -7,16 +7,15 @@ from jobMarket.models.shared import *
 from jobMarket.models.all_models import *
 from jobMarket.models.misc import *
 
-def ingest(filename):
+def ingest(fpath):
     """ Sorts and inserts raw json into tables.
     Parameters:
-    filename (file name including its extension, NOT A PATH)
+    filepath (file path including its extension.)
     """
-    QUEUE_PATH = 'data/pending'
     ARCHIVE_PATH = 'data/archived'
-    fpath = os.path.join(os.path.join(settings.BASE_DIR, QUEUE_PATH), filename)
+    basename = os.path.basename(fpath)
     apath = os.path.join(settings.BASE_DIR, ARCHIVE_PATH)
-    collection_date_str, platform_name = filename.split('_', 2)[:2]
+    collection_date_str, platform_name = basename.split('_', 2)[:2]
     collected_on = make_aware(datetime.strptime(collection_date_str, '%Y-%m-%d'))
 
     # load up json
