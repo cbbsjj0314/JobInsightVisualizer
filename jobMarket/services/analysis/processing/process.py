@@ -1,5 +1,5 @@
-from django.db.models import Count, F, Window, FloatField, Q
-from django.db.models.functions import Rank
+from django.db.models import Count, F #, Window, FloatField, Q
+# from django.db.models.functions import Rank
 from jobMarket.models.shared import *
 from jobMarket.models.all_models import *
 
@@ -10,7 +10,7 @@ from jobMarket.models.all_models import *
 
 # 언어 스킬만 집계
 
-def do_stuff(n_types=3):
+def query_from_primaries(n_types=3):
     """Extracts data from tables tailored for the 4th chart
     Parameters:
     n_types (top n job subtypes to draw per language, default=3)
@@ -92,16 +92,21 @@ def do_stuff(n_types=3):
             result[skill_name] = {}
 
         if len(result[skill_name]) < n_types: # top 3 
-            result[skill_name][sub_type_name] = f'{percentage:.2f}%'
+            result[skill_name][sub_type_name] = f'{percentage:.2f}'
+
+    # final = [
+    #     {
+    #         'lang': skill,
+    #         'jobs': [
+    #             {'job': subtype, 'percentage': percent}
+    #             for subtype, percent in subtypes.items()
+    #         ]
+    #     } 
+    #     for skill, subtypes in result.items()]
 
     final = [
-        {
-            'lang': skill,
-            'jobs': [
-                {'job': subtype, 'percentage': percent}
-                for subtype, percent in subtypes.items()
-            ]
-        } 
-        for skill, subtypes in result.items()]
+        {skill:subtypes}
+        for skill, subtypes in result.items()
+    ]
 
     return final
