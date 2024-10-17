@@ -1,41 +1,41 @@
-const programmingData = [{
-        "lang": "Java",
-        "jobs": [
-            { "job": "백엔드 개발자", "percentage": 30 },
-            { "job": "자바 개발자", "percentage": 30 },
-            { "job": "웹 개발자", "percentage": 40 }
-        ]
-    },
-    {
-        "lang": "Python",
-        "jobs": [
-            { "job": "백엔드 개발자", "percentage": 25 },
-            { "job": "데이터 엔지니어", "percentage": 35 },
-            { "job": "프론트엔드 개발자", "percentage": 40 }
-        ]
-    },
-    {
-        "lang": "JavaScript",
-        "jobs": [
-            { "job": "프론트엔드 개발자", "percentage": 50 },
-            { "job": "풀스택 개발자", "percentage": 30 },
-            { "job": "웹 퍼블리셔", "percentage": 20 }
-        ]
-    },
-    {
-        "lang": "C",
-        "jobs": [
-            { "job": "임베디드 개발자", "percentage": 10 },
-            { "job": "IOT 개발자", "percentage": 50 },
-            { "job": "코어뱅킹 개발자", "percentage": 40 }
-        ]
-    }
-];
+// const programmingData = [{
+//         "lang": "Java",
+//         "jobs": [
+//             { "job": "백엔드 개발자", "percentage": 30 },
+//             { "job": "자바 개발자", "percentage": 30 },
+//             { "job": "웹 개발자", "percentage": 40 }
+//         ]
+//     },
+//     {
+//         "lang": "Python",
+//         "jobs": [
+//             { "job": "백엔드 개발자", "percentage": 25 },
+//             { "job": "데이터 엔지니어", "percentage": 35 },
+//             { "job": "프론트엔드 개발자", "percentage": 40 }
+//         ]
+//     },
+//     {
+//         "lang": "JavaScript",
+//         "jobs": [
+//             { "job": "프론트엔드 개발자", "percentage": 50 },
+//             { "job": "풀스택 개발자", "percentage": 30 },
+//             { "job": "웹 퍼블리셔", "percentage": 20 }
+//         ]
+//     },
+//     {
+//         "lang": "C",
+//         "jobs": [
+//             { "job": "임베디드 개발자", "percentage": 10 },
+//             { "job": "IOT 개발자", "percentage": 50 },
+//             { "job": "코어뱅킹 개발자", "percentage": 40 }
+//         ]
+//     }
+// ];
 
 let myChart4; // 차트 인스턴스
 
 // 프로그래밍 언어 기준 해당 언어를 많이 쓰는 직업 Top 3 차트 그리기
-function drawProgrammingChart() {
+function drawProgrammingChart(programmingData) {
     const ctx = document.getElementById('myChart4').getContext('2d');
 
     // 기존 차트가 있다면 제거
@@ -123,7 +123,7 @@ function drawProgrammingChart() {
     myChart4 = new Chart(ctx, config);
 }
 
-function draw_chart1() {
+function draw_chart1(programmingData) {
     const opacity = 0.3; // 70% 불투명도
     const hue = Math.random() * 360; // 색상 값 (Hue)
     const barData = [];

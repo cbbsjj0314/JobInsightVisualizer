@@ -5,62 +5,70 @@ let myChart2; // 두 번째 차트 인스턴스
  * 서버에서 보내는 Json 형식에 따른 script 
  */
 // 서버에서 오는 데이터 (예시)
-const responseData = [
-    { "region": "강원", "experience": "신입", "rate": 30 },
-    { "region": "강원", "experience": "경력", "rate": 40 },
-    { "region": "강원", "experience": "경력무관", "rate": 30 },
-    { "region": "경기", "experience": "신입", "rate": 35 },
-    { "region": "경기", "experience": "경력", "rate": 40 },
-    { "region": "경기", "experience": "경력무관", "rate": 25 },
-    { "region": "경남", "experience": "신입", "rate": 40 },
-    { "region": "경남", "experience": "경력", "rate": 35 },
-    { "region": "경남", "experience": "경력무관", "rate": 25 },
-    { "region": "경북", "experience": "신입", "rate": 45 },
-    { "region": "경북", "experience": "경력", "rate": 30 },
-    { "region": "경북", "experience": "경력무관", "rate": 25 },
-    { "region": "광주", "experience": "신입", "rate": 50 },
-    { "region": "광주", "experience": "경력", "rate": 30 },
-    { "region": "광주", "experience": "경력무관", "rate": 20 },
-    { "region": "대구", "experience": "신입", "rate": 55 },
-    { "region": "대구", "experience": "경력", "rate": 30 },
-    { "region": "대구", "experience": "경력무관", "rate": 15 },
-    { "region": "대전", "experience": "신입", "rate": 40 },
-    { "region": "대전", "experience": "경력", "rate": 40 },
-    { "region": "대전", "experience": "경력무관", "rate": 20 },
-    { "region": "부산", "experience": "신입", "rate": 30 },
-    { "region": "부산", "experience": "경력", "rate": 50 },
-    { "region": "부산", "experience": "경력무관", "rate": 20 },
-    { "region": "서울", "experience": "신입", "rate": 40 },
-    { "region": "서울", "experience": "경력", "rate": 30 },
-    { "region": "서울", "experience": "경력무관", "rate": 30 },
-    { "region": "세종", "experience": "신입", "rate": 45 },
-    { "region": "세종", "experience": "경력", "rate": 30 },
-    { "region": "세종", "experience": "경력무관", "rate": 25 },
-    { "region": "울산", "experience": "신입", "rate": 50 },
-    { "region": "울산", "experience": "경력", "rate": 30 },
-    { "region": "울산", "experience": "경력무관", "rate": 20 },
-    { "region": "인천", "experience": "신입", "rate": 35 },
-    { "region": "인천", "experience": "경력", "rate": 40 },
-    { "region": "인천", "experience": "경력무관", "rate": 25 },
-    { "region": "전북", "experience": "신입", "rate": 40 },
-    { "region": "전북", "experience": "경력", "rate": 35 },
-    { "region": "전북", "experience": "경력무관", "rate": 25 },
-    { "region": "제주", "experience": "신입", "rate": 30 },
-    { "region": "제주", "experience": "경력", "rate": 40 },
-    { "region": "제주", "experience": "경력무관", "rate": 30 },
-    { "region": "충남", "experience": "신입", "rate": 50 },
-    { "region": "충남", "experience": "경력", "rate": 30 },
-    { "region": "충남", "experience": "경력무관", "rate": 20 },
-    { "region": "충북", "experience": "신입", "rate": 40 },
-    { "region": "충북", "experience": "경력", "rate": 35 },
-    { "region": "충북", "experience": "경력무관", "rate": 25 },
-    { "region": "해외", "experience": "신입", "rate": 20 },
-    { "region": "해외", "experience": "경력", "rate": 60 },
-    { "region": "해외", "experience": "경력무관", "rate": 20 },
-]; // 더미데이터 
+// const responseData = [
+//     { "region": "강원", "experience": "신입", "rate": 30 },
+//     { "region": "강원", "experience": "경력", "rate": 40 },
+//     { "region": "강원", "experience": "경력무관", "rate": 30 },
+//     { "region": "경기", "experience": "신입", "rate": 35 },
+//     { "region": "경기", "experience": "경력", "rate": 40 },
+//     { "region": "경기", "experience": "경력무관", "rate": 25 },
+//     { "region": "경남", "experience": "신입", "rate": 40 },
+//     { "region": "경남", "experience": "경력", "rate": 35 },
+//     { "region": "경남", "experience": "경력무관", "rate": 25 },
+//     { "region": "경북", "experience": "신입", "rate": 45 },
+//     { "region": "경북", "experience": "경력", "rate": 30 },
+//     { "region": "경북", "experience": "경력무관", "rate": 25 },
+//     { "region": "광주", "experience": "신입", "rate": 50 },
+//     { "region": "광주", "experience": "경력", "rate": 30 },
+//     { "region": "광주", "experience": "경력무관", "rate": 20 },
+//     { "region": "대구", "experience": "신입", "rate": 55 },
+//     { "region": "대구", "experience": "경력", "rate": 30 },
+//     { "region": "대구", "experience": "경력무관", "rate": 15 },
+//     { "region": "대전", "experience": "신입", "rate": 40 },
+//     { "region": "대전", "experience": "경력", "rate": 40 },
+//     { "region": "대전", "experience": "경력무관", "rate": 20 },
+//     { "region": "부산", "experience": "신입", "rate": 30 },
+//     { "region": "부산", "experience": "경력", "rate": 50 },
+//     { "region": "부산", "experience": "경력무관", "rate": 20 },
+//     { "region": "서울", "experience": "신입", "rate": 40 },
+//     { "region": "서울", "experience": "경력", "rate": 30 },
+//     { "region": "서울", "experience": "경력무관", "rate": 30 },
+//     { "region": "세종", "experience": "신입", "rate": 45 },
+//     { "region": "세종", "experience": "경력", "rate": 30 },
+//     { "region": "세종", "experience": "경력무관", "rate": 25 },
+//     { "region": "울산", "experience": "신입", "rate": 50 },
+//     { "region": "울산", "experience": "경력", "rate": 30 },
+//     { "region": "울산", "experience": "경력무관", "rate": 20 },
+//     { "region": "인천", "experience": "신입", "rate": 35 },
+//     { "region": "인천", "experience": "경력", "rate": 40 },
+//     { "region": "인천", "experience": "경력무관", "rate": 25 },
+//     { "region": "전북", "experience": "신입", "rate": 40 },
+//     { "region": "전북", "experience": "경력", "rate": 35 },
+//     { "region": "전북", "experience": "경력무관", "rate": 25 },
+//     { "region": "제주", "experience": "신입", "rate": 30 },
+//     { "region": "제주", "experience": "경력", "rate": 40 },
+//     { "region": "제주", "experience": "경력무관", "rate": 30 },
+//     { "region": "충남", "experience": "신입", "rate": 50 },
+//     { "region": "충남", "experience": "경력", "rate": 30 },
+//     { "region": "충남", "experience": "경력무관", "rate": 20 },
+//     { "region": "충북", "experience": "신입", "rate": 40 },
+//     { "region": "충북", "experience": "경력", "rate": 35 },
+//     { "region": "충북", "experience": "경력무관", "rate": 25 },
+//     { "region": "해외", "experience": "신입", "rate": 20 },
+//     { "region": "해외", "experience": "경력", "rate": 60 },
+//     { "region": "해외", "experience": "경력무관", "rate": 20 },
+// ]; // 더미데이터 
 
-//막대그래프 
-function drawChart() {
+
+
+/**
+ * @function drawChart 막대그래프 그리는 메소드 
+ * @author dhshin
+ * @param {*} responseData 지역별 채용공고로 신입/경력 비중 data  .json 형식
+ */
+function drawChart(responseData) {
+    console.log(responseData)
+
     const labels = [...new Set(responseData.map(data => data.region))];
 
     const 신입비율 = labels.map(label => {
@@ -142,9 +150,12 @@ function drawChart() {
     Plotly.newPlot('myDiv', data, layout);
 
 }
-
-///꺽은선 그래프 
-function drawChart2() {
+/**
+ * @function 
+ * @author
+ * @param {*} responseData 
+ */
+function drawChart2(responseData) {
     // 각 경험 유형별 데이터 생성
     const regions = [...new Set(responseData.map(data => data.region))];
     const newbieRates = regions.map(region => responseData.find(data => data.region === region && data.experience === "신입").rate);
@@ -206,7 +217,7 @@ function drawChart2() {
 }
 
 
-function drawCombinedChart() {
+function drawCombinedChart(responseData) {
     // 지역 라벨 생성
     const labels = [...new Set(responseData.map(data => data.region))];
 
@@ -317,3 +328,8 @@ function drawCombinedChart() {
     // 그래프 그리기
     Plotly.newPlot('myDiv2', data, layout);
 }
+
+
+
+// CSRF 토큰을 Django 템플릿에서 가져오기
+const csrftoken = "{{ csrf_token }}";
