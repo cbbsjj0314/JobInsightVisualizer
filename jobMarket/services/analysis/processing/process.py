@@ -11,6 +11,10 @@ from jobMarket.models.all_models import *
 # 언어 스킬만 집계
 
 def do_stuff(n_types=3):
+    """Extracts data from tables tailored for the 4th chart
+    Parameters:
+    n_types (top n job subtypes to draw per language, default=3)
+    """
     languages = (
         ### FROM
         JobSuperSubAssociation.objects
@@ -60,7 +64,7 @@ def do_stuff(n_types=3):
     #     )
     # )
 
-    # Rank
+    # Rank-
     ranked = sorted(
         percentages,
         key=lambda x: (x['skill_name'], -x['percentage'])
@@ -90,6 +94,14 @@ def do_stuff(n_types=3):
         if len(result[skill_name]) < n_types: # top 3 
             result[skill_name][sub_type_name] = f'{percentage:.2f}%'
 
-    final = [{skill: subtypes} for skill, subtypes in result.items()]
+    final = [
+        {
+            'lang': skill,
+            'jobs': [
+                {'job': subtype, 'percentage': percent}
+                for subtype, percent in subtypes.items()
+            ]
+        } 
+        for skill, subtypes in result.items()]
 
     return final
