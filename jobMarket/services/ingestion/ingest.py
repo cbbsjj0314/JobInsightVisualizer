@@ -1,17 +1,21 @@
-import os, json
+import os, json, shutil
 from datetime import datetime
 from django.db import transaction
 from django.utils.timezone import make_aware
+from django.conf import settings
 from jobMarket.models.shared import *
 from jobMarket.models.all_models import *
 from jobMarket.models.misc import *
 
-"""
-데이터 수집 결과물인 json이 있는 경로를 입력받아서
-1차 테이블에 넣는 메소드입니다.
-"""
-def ingest(fpath):
-    filename = os.path.basename(fpath)
+def ingest(filename):
+    """ Sorts and inserts raw json into tables.
+    Parameters:
+    filename (file name including its extension, NOT A PATH)
+    """
+    QUEUE_PATH = 'data/pending'
+    ARCHIVE_PATH = 'data/archived'
+    fpath = os.path.join(os.path.join(settings.BASE_DIR, QUEUE_PATH), filename)
+    apath = os.path.join(settings.BASE_DIR, ARCHIVE_PATH)
     collection_date_str, platform_name = filename.split('_', 2)[:2]
     collected_on = make_aware(datetime.strptime(collection_date_str, '%Y-%m-%d'))
 
@@ -19,8 +23,12 @@ def ingest(fpath):
     with open(fpath, 'r', encoding='utf-8') as f:
         data = json.load(f)
 
-    # the atom bomb
+    # if one fails, all will fail as well
     with transaction.atomic():
+        # json file meta data archiving
+        RawFile.objects.get_or_create(filename=filename, collected_on=collected_on)
+
+        # collected platform info
         platform, _ = Platform.objects.get_or_create(name=platform_name)
         
         # for each record in the json
@@ -76,3 +84,5 @@ def ingest(fpath):
             for loc_name in post['location']:
                 Location.objects.get_or_create(name=loc_name, job_posting=job_posting)
 
+        # move file to the archived dir
+        shutil.move(fpath, apath)
