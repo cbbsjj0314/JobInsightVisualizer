@@ -35,6 +35,7 @@ STATICFILES_DIRS = [
 ]
 
 INSTALLED_APPS = [
+    'rest_framework',
     'jobMarket.apps.JobmarketConfig',
     'django.contrib.admin',
     'django.contrib.auth',
