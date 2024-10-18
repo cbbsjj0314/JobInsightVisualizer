@@ -20,14 +20,8 @@ const jsonData = [
 /* basic_기본 데이터 생성 */
 function drawChart1(data) {
     if (myChart1 != null) {
-        console.log('차트 제거');
         myChart1.destroy(); // 차트가 존재하면 제거
     }
-    // console.log("drawchart1 data: ", data);
-    // console.log("drawchart1 data type : ", typeof data);
-    // console.log("drawchart1 data.datetime : ", data.datetime);
-    // console.log("drawchart1 data.count : ", data.count);
-    console.log(2);
 
     const ctx = document.getElementById('myChart1').getContext('2d');
     var maxDataValue = Math.max(...data.map(d => d.count));
@@ -39,7 +33,7 @@ function drawChart1(data) {
     gradient.addColorStop(0.5, 'rgba(0, 119, 181, 0.5)'); // 중간 색상
     gradient.addColorStop(1, 'rgba(0, 119, 181, 0.1)');   // 아래쪽 색상
 
-    console.log(3);
+    // console.log(3);
 
     const config ={
         type : 'line',
@@ -87,9 +81,7 @@ function drawChart1(data) {
             }
         }
     }
-    console.log(4);
-    console.log(ctx);
-    console.log(config);
+
     myChart1 = new Chart(ctx, config);
 }
 
@@ -100,14 +92,9 @@ function drawChart1(data) {
 /* basic_기본 데이터 생성 */
 function updateChart(data) {
     if (myChart1 != null) {
-        console.log('차트 제거');
         myChart1.destroy(); // 차트가 존재하면 제거
     }
-    // console.log("updatechart1 data: ", data);
-    // console.log("updatechart1 data type : ", typeof data);
-    // console.log("updatechart1 data.datetime : ", data.datetime);
-    // console.log("updatechart1 data.count : ", data.count);
-    console.log(2);
+
 
     const ctx = document.getElementById('myChart1').getContext('2d');
     var maxDataValue = Math.max(...data.map(d => d.count));
@@ -167,8 +154,6 @@ function updateChart(data) {
             }
         }
     }
-    console.log(4);
-    console.log(ctx);
-    console.log(config);
+
     myChart1 = new Chart(ctx, config);
 }
