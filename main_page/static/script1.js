@@ -23,10 +23,10 @@ function drawChart1(data) {
         console.log('차트 제거');
         myChart1.destroy(); // 차트가 존재하면 제거
     }
-    console.log("drawchart1 data: ", data);
-    console.log("drawchart1 data type : ", typeof data);
-    console.log("drawchart1 data.datetime : ", data.datetime);
-    console.log("drawchart1 data.count : ", data.count);
+    // console.log("drawchart1 data: ", data);
+    // console.log("drawchart1 data type : ", typeof data);
+    // console.log("drawchart1 data.datetime : ", data.datetime);
+    // console.log("drawchart1 data.count : ", data.count);
     console.log(2);
 
     const ctx = document.getElementById('myChart1').getContext('2d');
@@ -103,10 +103,10 @@ function updateChart(data) {
         console.log('차트 제거');
         myChart1.destroy(); // 차트가 존재하면 제거
     }
-    console.log("updatechart1 data: ", data);
-    console.log("updatechart1 data type : ", typeof data);
-    console.log("updatechart1 data.datetime : ", data.datetime);
-    console.log("updatechart1 data.count : ", data.count);
+    // console.log("updatechart1 data: ", data);
+    // console.log("updatechart1 data type : ", typeof data);
+    // console.log("updatechart1 data.datetime : ", data.datetime);
+    // console.log("updatechart1 data.count : ", data.count);
     console.log(2);
 
     const ctx = document.getElementById('myChart1').getContext('2d');

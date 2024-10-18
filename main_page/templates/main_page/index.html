@@ -101,8 +101,8 @@
 
         /* event Listeners -> data 값 변경*/
         async function API1_loadData(job,date){
-            const baseUrl = 'http://localhost:8000/main_page/chart1_update/';
-            const url = `${baseUrl}?job=${encodeURIComponent(job)}&date=${encodeURIComponent(date)}`;
+            const baseUrl = window.location.origin;
+            const url = `${baseUrl}/main_page/chart1_update/?job=${encodeURIComponent(job)}&date=${encodeURIComponent(date)}`
             console.log('Fetching data from:', url);
             try {
                 const response = await fetch(url, {
