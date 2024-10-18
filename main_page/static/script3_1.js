@@ -56,6 +56,7 @@ function generateJobTechStacksTreemap(selectedJobTitle) {
     const selectedJobData = window.jobTechStacksData.find(job => job.job_title === selectedJobTitle);
 
     if (selectedJobData) {
+        console.log(selectedJobData.experienced_tech_stacks)
         createEntryTreemap(selectedJobData.entry_tech_stacks);
         createExperiencedTreemap(selectedJobData.experienced_tech_stacks);
     }
@@ -63,6 +64,7 @@ function generateJobTechStacksTreemap(selectedJobTitle) {
 
 // 트리맵 생성
 function createTreemap(containerId, techStacks, colors, treemapType) {
+    console.log("Container ID:", containerId);
     // 트리맵을 표시할 컨테이너 선택
     const treemapContainer = d3.select(containerId)
         .html(""); // 기존 내용 지우기
