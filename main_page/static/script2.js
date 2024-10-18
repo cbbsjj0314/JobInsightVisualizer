@@ -219,7 +219,9 @@
 
 function drawCombinedChart(responseData) {
     // 지역 라벨 생성
-    const labels = [...new Set(responseData.map(data => data.location_name))];
+    let labels = [...new Set(responseData.map(data => data.location_name))];
+    //해외를 맨마지막으로
+    labels = labels.filter(label => label !== '해외').concat('해외');
 
     // 비율 계산
     const 신입비율 = labels.map(label => {
