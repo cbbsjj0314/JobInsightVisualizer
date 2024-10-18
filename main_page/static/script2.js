@@ -1,5 +1,5 @@
-let myChart1; // 첫 번째 차트 인스턴스
-let myChart2; // 두 번째 차트 인스턴스
+// let myChart1; // 첫 번째 차트 인스턴스
+// let myChart2; // 두 번째 차트 인스턴스
 
 /**
  * 서버에서 보내는 Json 형식에 따른 script 
