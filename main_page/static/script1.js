@@ -23,15 +23,8 @@ function drawChart1(data) {
         console.log('차트 제거');
         myChart1.destroy(); // 차트가 존재하면 제거
     }
-    console.log("drawchart1 data: ", data);
-    console.log("drawchart1 data type : ", typeof data);
-    console.log("drawchart1 data.datetime : ", data.datetime);
-    console.log("drawchart1 data.count : ", data.count);
-    console.log(2);
 
     const ctx = document.getElementById('myChart1').getContext('2d');
-    var maxDataValue = Math.max(...data.map(d => d.count));
-    var yMax = maxDataValue * 1.3;
 
     // 링크드인 느낌의 그라데이션 생성
     const gradient = ctx.createLinearGradient(0, 0, 0, ctx.canvas.height);
@@ -44,10 +37,10 @@ function drawChart1(data) {
     const config ={
         type : 'line',
         data: {
-            labels: data.map(data => data.datetime),
+            labels: ['2024-10-10', '2024-10-11', '2024-10-12', '2024-10-13', '2024-10-14', '2024-10-15', '2024-10-16'],
             datasets: [{
                 label: '일별 채용 공고 수',
-                data: data.map(data => data.count),
+                data: [10,10,10,10,10,10,10],
                 backgroundColor: gradient,
                 fill: 'start',
                 borderColor: 'rgba(0, 119, 181, 1)', // 경계선 부분의 색상 (진한 파란색)
@@ -73,7 +66,7 @@ function drawChart1(data) {
                 },
                 y: {
                     beginAtZero: true,
-                    max: yMax,
+                    max: 201,
                     title: {
                         display: true,
                         text: 'count'
