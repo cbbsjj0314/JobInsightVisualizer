@@ -136,7 +136,7 @@ function draw_chart1(programmingData) {
                 type: 'bar', // 막대 차트
                 // 각 직업에 대해 다른 색상 설정
                 marker: { color: `rgba(${hue}), 70%, 50%, ${opacity})` },
-                text: job.percentage + '%', // 비율 표시
+                text: job.percentage, // 비율 표시
                 textposition: 'auto' // 비율 텍스트 위치
             });
         });
