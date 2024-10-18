@@ -10,10 +10,11 @@ from jobMarket.models.misc import *
 def ingest(fpath):
     """ Sorts and inserts raw json into tables.
     Parameters:
-    filepath (file path including its extension.)
+    fpath (Full absolute path including the file's extension.)
     """
     ARCHIVE_PATH = 'data/archived'
     basename = os.path.basename(fpath)
+    # the path for archiving
     apath = os.path.join(settings.BASE_DIR, ARCHIVE_PATH)
     collection_date_str, platform_name = basename.split('_', 2)[:2]
     collected_on = make_aware(datetime.strptime(collection_date_str, '%Y-%m-%d'))
@@ -25,7 +26,7 @@ def ingest(fpath):
     # if one fails, all will fail as well
     with transaction.atomic():
         # json file meta data archiving
-        RawFile.objects.get_or_create(filename=filename, collected_on=collected_on)
+        RawFile.objects.get_or_create(filename=basename, collected_on=collected_on)
 
         # collected platform info
         platform, _ = Platform.objects.get_or_create(name=platform_name)
