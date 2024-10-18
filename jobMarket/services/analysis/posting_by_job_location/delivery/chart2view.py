@@ -9,6 +9,7 @@ from jobMarket.models.chart3model import *
 from jobMarket.models.chart2model import *
 from jobMarket.serializers import PostingByJobLocationSerializer
 
+
 class PostingByJobLocationView(APIView):
 
     @swagger_auto_schema(
