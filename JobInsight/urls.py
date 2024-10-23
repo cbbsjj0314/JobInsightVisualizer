@@ -37,6 +37,7 @@ urlpatterns = [
     path("", lambda request: redirect("main_page/", permanent=True)),
     path("main_page/", include("main_page.urls")),
     path("api/stat/", include("jobMarket.urls")),
+    path("etl/", include("hook.urls")),
     path(
         "swagger/",
         schema_view.with_ui("swagger", cache_timeout=0),
